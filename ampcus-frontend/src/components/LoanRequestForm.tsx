@@ -47,7 +47,7 @@ function LoanRequestForm() {
         }
 
 
-        const response = await api('/loans/', formData);
+        const response = await api('/loans/', 'POST', formData);
 
         if (response.response.status === 400 || response.response.status === 401) {
             console.log(response.error);

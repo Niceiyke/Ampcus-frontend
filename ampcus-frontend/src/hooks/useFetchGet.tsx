@@ -15,7 +15,7 @@ const useFetchGet = () => {
 
     const NewAccessToken = async (refresh: string): Promise<string | undefined> => {
         try {
-            const response = await fetch('https://ampcus-backend.vercel.app/apitoken/refresh/', {
+            const response = await fetch('https://ampcus-backend.vercel.app/api/token/refresh/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

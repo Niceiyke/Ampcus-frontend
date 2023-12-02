@@ -23,7 +23,7 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/token/', {
+            const response = await fetch('https://ampcus-backend.vercel.app/api/token/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
 
-                return navigate('/dashboard');
+                navigate('/dashboard');
 
             } else {
                 // Handle Login failure
