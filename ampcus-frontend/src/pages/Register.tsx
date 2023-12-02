@@ -21,7 +21,7 @@ const Signup: React.FC = () => {
         e.preventDefault();
 
         try {
-            const response = await fetch('https://ampcus-backend.vercel.app/signup/', {
+            const response = await fetch('https://ampcus-backend.vercel.app/api/signup/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

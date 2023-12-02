@@ -38,7 +38,6 @@ const Login: React.FC = () => {
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
-
                 navigate('/dashboard');
 
             } else {
