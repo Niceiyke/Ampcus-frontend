@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { encryptData } from '../utils/encryptdycrpt';
 import InputField from '../components/InputField';
 
+
 const Login: React.FC = () => {
     const [error, setError] = useState<string | undefined>();
-    const [loading, setLoading] = useState(false); // New loading state
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -24,9 +25,8 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
-            setLoading(true); // Set loading state to true during login request
-
-            const response = await fetch('https://ampcus-backend.vercel.app/api/token/', {
+            setLoading(true)
+            const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/token/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
@@ -34,25 +34,29 @@ const Login: React.FC = () => {
             });
 
             if (response.ok) {
-                const token = await response.json()
-                const access_token = token.access
-                const refresh_token = token.refresh
+                const token = await response.json();
+                const access_token = token.access;
+                const refresh_token = token.refresh;
 
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
                 navigate('/dashboard')
+
+
             } else {
-                setError('Incorrect email or password')
-                console.error('Login failed')
-                throw new Error('some message')
+                // Handle Login failure
+                setError('Incorrect email or password');
+                console.error('Login failed');
+                throw new Error('some message');
             }
         } catch (error) {
-            console.error('Error during Login:', error)
-        } finally {
-            setLoading(false) // Set loading state back to false after login request completes
+            console.error('Error during Login:', error);
         }
-    }
+        finally {
+            setLoading(false)
+        }
+    };
 
     return (
         <div className="flex justify-center items-center h-screen">

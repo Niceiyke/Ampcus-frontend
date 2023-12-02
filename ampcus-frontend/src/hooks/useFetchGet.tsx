@@ -11,11 +11,11 @@ const useFetchGet = () => {
 
     let config: RequestInit = {};
 
-    const BASEURL = 'https://ampcus-backend.vercel.app/api';
+    const BASEURL = import.meta.env.VITE_APP_BASE_URL
 
     const NewAccessToken = async (refresh: string): Promise<string | undefined> => {
         try {
-            const response = await fetch('https://ampcus-backend.vercel.app/api/token/refresh/', {
+            const response = await fetch(`${BASEURL}/token/refresh/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

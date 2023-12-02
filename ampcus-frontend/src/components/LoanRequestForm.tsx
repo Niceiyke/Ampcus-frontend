@@ -54,7 +54,6 @@ function LoanRequestForm() {
             setError(response.error[0]);
         } else if (response.response.status === 201) {
             console.log(response.data);
-            console.log('dataerr', response.error);
             navigate('/dashboard');
         }
     };

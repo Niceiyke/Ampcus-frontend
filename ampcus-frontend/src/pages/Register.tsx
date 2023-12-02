@@ -11,9 +11,11 @@ const Signup: React.FC = () => {
         sap_number: '',
         password: '',
     });
-    const [loading, setLoading] = useState(false); // New loading state
+    const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        setError('')
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
@@ -22,7 +24,8 @@ const Signup: React.FC = () => {
 
         try {
             setLoading(true)
-            const response = await fetch('https://ampcus-backend.vercel.app/api/signup/', {
+
+            const response = await fetch(`${import.meta.env.VITE_APP_BASE_URL}/signup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -32,14 +35,28 @@ const Signup: React.FC = () => {
 
             if (response.ok) {
                 // Handle successful signup
-                navigate('/login')
+                navigate('/login');
             } else {
                 // Handle signup failure
-                console.error('Signup failed')
+                const errorData = await response.json();
+
+                if (errorData.email && errorData.email[0].includes('custom')) {
+                    const errorMessage = errorData.email[0].replace('custom ', '')
+                    console.log(errorMessage)
+                    setError(errorMessage);
+                    console.error('Signup failed');
+                }
+                if (errorData.sap_number && errorData.sap_number[0].includes('custom')) {
+                    const errorMessage = errorData.sap_number[0].replace('custom ', '')
+                    console.log(errorMessage)
+                    setError(errorMessage);
+                    console.error('Signup failed');
+                }
             }
         } catch (error) {
-            console.error('Error during signup:', error)
-        } finally {
+            console.error('Error during signup:', error);
+        }
+        finally {
             setLoading(false)
         }
     };
@@ -48,6 +65,7 @@ const Signup: React.FC = () => {
         <div className="flex justify-center items-center h-screen">
             <div className="bg-slate-800 text-white p-8 rounded shadow-md w-full sm:w-96">
                 <h3 className="mb-4 text-center">Register</h3>
+                {error ? <p className='text-red-500 text-center'>{error}</p> : ''}
                 <form onSubmit={handleSignup}>
                     <InputField
                         label="First Name"
@@ -93,7 +111,6 @@ const Signup: React.FC = () => {
                         placeholder="Password"
                         required
                     />
-
                     <div className="mb-6">
                         <button
                             type="submit"
