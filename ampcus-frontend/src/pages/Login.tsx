@@ -6,6 +6,7 @@ import InputField from '../components/InputField';
 
 const Login: React.FC = () => {
     const [error, setError] = useState<string | undefined>();
+    const [loading, setLoading] = useState(false); // New loading state
 
     const navigate = useNavigate();
 
@@ -23,6 +24,8 @@ const Login: React.FC = () => {
         e.preventDefault();
 
         try {
+            setLoading(true); // Set loading state to true during login request
+
             const response = await fetch('https://ampcus-backend.vercel.app/api/token/', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -31,25 +34,25 @@ const Login: React.FC = () => {
             });
 
             if (response.ok) {
-                const token = await response.json();
-                const access_token = token.access;
-                const refresh_token = token.refresh;
+                const token = await response.json()
+                const access_token = token.access
+                const refresh_token = token.refresh
 
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
                 navigate('/dashboard')
-
             } else {
-                // Handle Login failure
                 setError('Incorrect email or password')
                 console.error('Login failed')
                 throw new Error('some message')
             }
         } catch (error) {
             console.error('Error during Login:', error)
+        } finally {
+            setLoading(false) // Set loading state back to false after login request completes
         }
-    };
+    }
 
     return (
         <div className="flex justify-center items-center h-screen">
@@ -78,9 +81,10 @@ const Login: React.FC = () => {
                     <div className="mb-6">
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                            className={`w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 ${loading ? 'cursor-not-allowed' : ''}`}
+                            disabled={loading}
                         >
-                            Log In
+                            {loading ? 'Logging In...' : 'Log In'}
                         </button>
                     </div>
                 </form>
