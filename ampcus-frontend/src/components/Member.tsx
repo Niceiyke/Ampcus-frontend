@@ -1,7 +1,6 @@
 import { useQuery, QueryFunction, QueryKey } from '@tanstack/react-query';
 import useFetchGet from '../hooks/useFetchGet';
 import { useAuth } from '../hooks/useAuth';
-import avatar from '../assets/avat.jpg';
 import { Member } from '../models/models';
 
 
@@ -33,7 +32,7 @@ function FetchMembers() {
         <div>
             {member?.id && (
                 <div className=" p-4 ">
-            
+
                     <div className="overflow-x-auto">
                         <h3 className='text-center mt-4 mb-4'>Active Loan</h3>
                         <table className="min-w-full divide-y divide-gray-200">
