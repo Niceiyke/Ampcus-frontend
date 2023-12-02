@@ -38,16 +38,16 @@ const Login: React.FC = () => {
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
-                navigate('/dashboard');
+                navigate('/dashboard')
 
             } else {
                 // Handle Login failure
-                setError('Incorrect email or password');
-                console.error('Login failed');
-                throw new Error('some message');
+                setError('Incorrect email or password')
+                console.error('Login failed')
+                throw new Error('some message')
             }
         } catch (error) {
-            console.error('Error during Login:', error);
+            console.error('Error during Login:', error)
         }
     };
 
