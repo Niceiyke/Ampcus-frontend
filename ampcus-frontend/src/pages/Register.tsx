@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../components/InputField';
 
-
 const Signup: React.FC = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -12,6 +11,7 @@ const Signup: React.FC = () => {
         sap_number: '',
         password: '',
     });
+    const [loading, setLoading] = useState(false); // New loading state
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -21,6 +21,7 @@ const Signup: React.FC = () => {
         e.preventDefault();
 
         try {
+            setLoading(true)
             const response = await fetch('https://ampcus-backend.vercel.app/api/signup/', {
                 method: 'POST',
                 headers: {
@@ -31,13 +32,15 @@ const Signup: React.FC = () => {
 
             if (response.ok) {
                 // Handle successful signup
-                navigate('/login');
+                navigate('/login')
             } else {
                 // Handle signup failure
-                console.error('Signup failed');
+                console.error('Signup failed')
             }
         } catch (error) {
-            console.error('Error during signup:', error);
+            console.error('Error during signup:', error)
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -90,12 +93,14 @@ const Signup: React.FC = () => {
                         placeholder="Password"
                         required
                     />
+
                     <div className="mb-6">
                         <button
                             type="submit"
-                            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                            className={`w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 ${loading ? 'cursor-not-allowed' : ''}`}
+                            disabled={loading}
                         >
-                            Register
+                            {loading ? 'Signing Up...' : 'Register'}
                         </button>
                     </div>
                 </form>
