@@ -34,14 +34,14 @@ const Login: React.FC = () => {
             });
 
             if (response.ok) {
-                const token = await response.json();
-                const access_token = token.access;
-                const refresh_token = token.refresh;
+                const token = await response.json()
+                const access_token = token.access
+                const refresh_token = token.refresh
 
                 encryptData('access', access_token)
                 encryptData('refresh', refresh_token)
                 encryptData('user', jwtDecode(access_token))
-                navigate('/dashboard')
+                return navigate('/dashboard')
 
 
             } else {
