@@ -6,8 +6,8 @@ import { encryptData } from "../utils/encryptdycrpt";
 import { useNavigate } from "react-router-dom";
 
 const useFetchGet = () => {
-  const { refreshToken, user, logout } = useAuth();
-  const navigation = useNavigate();
+  const { accessToken,refreshToken, user, logout } = useAuth();
+  const navigate = useNavigate();
 
   let config: RequestInit = {};
 
@@ -21,6 +21,7 @@ const useFetchGet = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+
         },
         body: JSON.stringify({ refresh }),
       });
@@ -39,9 +40,9 @@ const useFetchGet = () => {
     }
   };
 
-  const originalRequest = async (url: string): Promise<any> => {
+  const originalRequest = async (url: string,customHeaders?: Record<string, string>,): Promise<any> => {
     const url2 = `${BASEURL}${url}`;
-    const response = await fetch(url2, config);
+    const response = await fetch(url2, customHeaders);
 
     const data = await response.json();
 
@@ -57,7 +58,7 @@ const useFetchGet = () => {
     if (isExpiredRefreshToken) {
       console.log("refresh expired");
       logout();
-      navigation("/login");
+      navigate("/login");
     }
 
     if (isExpiredAccessToken) {
@@ -65,16 +66,26 @@ const useFetchGet = () => {
       const access_token = await NewAccessToken(refreshToken);
       console.log("token updated");
 
-      config.headers = {
+      const headers = {
         "Content-Type": "application/json",
         Authorization: `Bearer ${access_token}`,
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache',
+        
       };
 
-      const response = await originalRequest(url);
+      const response = await originalRequest(url,headers);
 
       return response;
     } else {
-      const response = await originalRequest(url);
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+        'Pragma': 'no-cache',
+        'Cache-Control': 'no-cache',
+        
+      };
+      const response = await originalRequest(url,headers);
 
       return response;
     }
