@@ -1,6 +1,8 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../components/InputField';
+import StateSelector from '../components/StateSelector'
+import LocalGovernmentSelector from '../components/LocalGovernmentSelector';
 
 const Signup: React.FC = () => {
     const navigate = useNavigate();
@@ -9,7 +11,15 @@ const Signup: React.FC = () => {
         last_name: '',
         email: '',
         sap_number: '',
+        phone_number: '',
         password: '',
+        date_of_birth: '',
+        place_of_birth: '',
+        state: '',
+        lga: '',
+        next_of_kin: '',
+        current_grade: '',
+        date_joined_nb: '',
     });
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
@@ -18,9 +28,18 @@ const Signup: React.FC = () => {
         setError('')
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
+    const handleStateSelection = (state: string) => {
+        setFormData({ ...formData, state, lga: '' }); // Reset lga when state changes
+    };
+
+    const handleLocalGovernmentSelection = (lga: string) => {
+        setFormData({ ...formData, lga });
+    };
 
     const handleSignup = async (e: FormEvent) => {
         e.preventDefault();
+
+        console.log(formData)
 
         try {
             setLoading(true)
@@ -103,6 +122,15 @@ const Signup: React.FC = () => {
                         required
                     />
                     <InputField
+                        label="Phone Number"
+                        id="phone_number"
+                        type="number"
+                        value={formData.phone_number}
+                        onChange={handleChange}
+                        placeholder="Phone Number"
+                        required
+                    />
+                    <InputField
                         label="Password"
                         id="password"
                         type="password"
@@ -111,6 +139,53 @@ const Signup: React.FC = () => {
                         placeholder="Password"
                         required
                     />
+                    <InputField
+                        label="date_of_birth"
+                        id="date_of_birth"
+                        type="date"
+                        value={formData.date_of_birth}
+                        onChange={handleChange}
+                        placeholder="Date of Birth"
+                        required
+                    />
+                    <InputField
+                        label="place_of_birth"
+                        id="place_of_birth"
+                        type="text"
+                        value={formData.place_of_birth}
+                        onChange={handleChange}
+                        placeholder="place of Birth"
+                        required
+                    />
+                    {/* Add StateSelector and LocalGovernmentSelector components */}
+                    <StateSelector onSelectState={handleStateSelection} />
+
+                    {formData.state && (
+                        <LocalGovernmentSelector selectedState={formData.state} onSelectLocalGovernment={handleLocalGovernmentSelection
+                        } />
+                    )}
+
+                    <InputField
+                        label="date_joined_nb"
+                        id="date_joined_nb"
+                        type="date"
+                        value={formData.date_joined_nb}
+                        onChange={handleChange}
+                        placeholder="date joined NB"
+                        required
+                    />
+                    <InputField
+                        label="current_grade"
+                        id="current_grade"
+                        type="text"
+                        value={formData.current_grade}
+                        onChange={handleChange}
+                        placeholder="Current Grade"
+                        required
+                    />
+
+
+
                     <div className="mb-6">
                         <button
                             type="submit"
