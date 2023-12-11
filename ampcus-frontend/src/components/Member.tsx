@@ -1,30 +1,31 @@
-import { useQuery, QueryFunction, QueryKey } from "@tanstack/react-query";
+import React, { useState, useEffect } from "react"; // Added React and useEffect
 import useFetchGet from "../hooks/useFetchGet";
 import { useAuth } from "../hooks/useAuth";
 import { Member } from "../models/models";
 import { Link } from "react-router-dom";
 
-function FetchMembers() {
+const FetchMembers: React.FC<Member> = () => {
   const { user } = useAuth();
   const api = useFetchGet();
-  console.log(user);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [error, setError] = useState<string>("");
+  const [member, setMember] = useState<Member | null>(null);
+  useEffect(() => {
+    const fetchMemberData = async () => {
+      try {
+        const response = await api(`/member/${user?.member}`);
+        setMember(response); // Set the member data
+      } catch (error) {
+        setIsError(true);
+        setError(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  const fetchMembers: QueryFunction<Member> = async () => {
-    const response = await api(`/member/${user?.member}`);
-    return response;
-  };
-
-  const queryKey: QueryKey = ["member"];
-
-  const {
-    data: member,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey,
-    queryFn: fetchMembers,
-  });
+    fetchMemberData();
+  }, [user]);
 
   if (isLoading) {
     return <div>Loading</div>;
@@ -135,6 +136,6 @@ function FetchMembers() {
       )}
     </div>
   );
-}
+};
 
 export default FetchMembers;

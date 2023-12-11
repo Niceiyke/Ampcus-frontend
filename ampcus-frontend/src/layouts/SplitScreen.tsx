@@ -1,6 +1,6 @@
 // SplitScreen.tsx
 
-import React, { ReactNode } from 'react';
+import  { ReactNode } from 'react';
 
 interface SplitScreenProps {
   left: ReactNode;
