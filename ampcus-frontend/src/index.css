@@ -67,3 +67,16 @@ button {
 input, select {
   @apply w-full p-2 border text-gray-900 border-gray-300 rounded focus:outline-none
 }
+
+.split-screen{
+  @apply flex gap-2
+}
+
+.left-pane{
+  @apply hidden md:block
+}
+
+.right-pane{
+  @apply w-[100%] mt-2
+}
+

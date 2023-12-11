@@ -7,7 +7,7 @@ function Dashboard() {
   return (
     <div className='layout'>
       <Navbar />
-      <SplitScreen left={Sidebar} right={FetchMembers} />
+      <SplitScreen left={<Sidebar/>} right={<FetchMembers/>} />
     </div>
   )
 }

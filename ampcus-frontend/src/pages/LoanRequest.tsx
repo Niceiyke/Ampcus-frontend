@@ -7,7 +7,7 @@ function LoanRequestPage() {
     return (
         <div>
             <Navbar />
-            <SplitScreen left={Sidebar} right={LoanRequestForm} />
+            <SplitScreen left={<Sidebar/>} right={<LoanRequestForm/>} />
         </div>
     )
 }

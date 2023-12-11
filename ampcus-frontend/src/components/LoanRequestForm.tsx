@@ -31,7 +31,7 @@ function LoanRequestForm() {
         e.preventDefault();
 
         if (formData['loan_type'] === 'jumbo') {
-            formData['loan_type'] = '1';
+            formData['loan_type'] = 1;
         }
         if (formData['loan_type'] == "education") {
             formData['loan_type'] = 2
