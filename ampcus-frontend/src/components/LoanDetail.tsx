@@ -58,21 +58,7 @@ function LoanDetail() {
     return <p>Error occurred: {error.message}</p>;
   }
 
-  const comments = [
-    {
-      avatar: 'url_to_avatar1',
-      name: 'John Doe',
-      text: 'This is the first comment.',
-      date: '2023-12-11',
-    },
-    {
-      avatar: 'url_to_avatar1',
-      name: 'John Doe',
-      text: 'This is the first comment.',
-      date: '2023-12-11',
-    },
-    // Add more comments as needed
-  ];
+ 
 
   const getPresidentStatus = () => {
     if (loadData.is_president_approved && !loadData.is_president_declined) {
@@ -141,9 +127,9 @@ function LoanDetail() {
         <div>comments
 
           <CommentForm user={user.id} loan={loadData.id}/>
-          <div>
-            <CommentList comments={comments} />
-          </div>
+    <br />
+            <CommentList comments={loadData.comments} />
+          
 
         </div>
       </div>

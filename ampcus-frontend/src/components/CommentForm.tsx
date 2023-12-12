@@ -39,11 +39,11 @@ const CommentForm: React.FC<CommentFormProps> = ({user,loan}) => {
 
     // Prepare form data
     const formData = new FormData();
-    formData.append('comment', comment)
+    formData.append('description', comment)
     formData.append('user', user)
     formData.append('loan', loan);
     if (file) {
-      formData.append('pdf', file);
+      formData.append('attachments', file);
     }
 
     console.log(formData)
@@ -64,11 +64,11 @@ const CommentForm: React.FC<CommentFormProps> = ({user,loan}) => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow-md">
+    <div className="max-w-md mx-auto bg-white p-6 rounded-md shadow-md mb-4">
       <textarea
         name="comments"
         id="comment"
-        placeholder="My comments"
+        placeholder="Add comments"
         className="resize-none border rounded-md p-2 w-full h-24 focus:outline-none focus:ring focus:border-blue-300"
         value={comment}
         onChange={(e) => setComment(e.target.value)}

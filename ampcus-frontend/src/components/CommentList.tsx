@@ -1,15 +1,17 @@
 // CommentList.tsx
 
-import React from 'react';
-import Comment from './Comments';
+import React from "react";
+import Comment from "./Comments";
 
 interface CommentProps {
-    avatar: string;
-    name: string;
-    text: string;
-    date: string;
-    pdfFile?: string; // Optional PDF file URL
-  }
+  id: string;
+  user: string;
+  description: string;
+  loan: string;
+  date_commented:string;
+  attachments?: string;
+  avatar?: string;
+}
 
 interface CommentListProps {
   comments: CommentProps[];
