@@ -60,7 +60,7 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState(decryptData('user'));
     const [accessToken, setAccessToken] = useState(decryptData('access'));
     const [refreshToken, setRefreshToken] = useState(decryptData('refresh'));
-    const [member, setMember] = useState(initialMemberData)
+    const [member, setMember] =  useState(decryptData('member'));
 
     const logout = () => {
         localStorage.removeItem('user');

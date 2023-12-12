@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 
 interface CommentFormProps {
+  user:string
+  loan:string
   // Add any additional props if needed
 }
 
-const CommentForm: React.FC<CommentFormProps> = () => {
+
+const CommentForm: React.FC<CommentFormProps> = ({user,loan}) => {
   const [comment, setComment] = useState<string>('');
   const [file, setFile] = useState<File | null>(null);
   const [showAttachment, setShowAttachment] = useState<boolean>(false);
@@ -31,17 +34,20 @@ const CommentForm: React.FC<CommentFormProps> = () => {
   };
 
   const submitForm = (): void => {
-    // Example API endpoint (replace with your actual API endpoint)
-    const apiEndpoint = 'https://example.com/api/submit';
+
+    const apiEndpoint = 'http://127.0.0.1:8000/api/add-comments/';
 
     // Prepare form data
     const formData = new FormData();
-    formData.append('comment', comment);
+    formData.append('comment', comment)
+    formData.append('user', user)
+    formData.append('loan', loan);
     if (file) {
       formData.append('pdf', file);
     }
 
-    // Perform the API request (you might want to use a library like axios for this)
+    console.log(formData)
+
     fetch(apiEndpoint, {
       method: 'POST',
       body: formData,
@@ -67,14 +73,22 @@ const CommentForm: React.FC<CommentFormProps> = () => {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
       ></textarea>
-
+<div className='flex justify-between gap-2'>
+<button
+        type="button"
+        onClick={focusTextarea}
+        className="mt-4 bg-blue-400 text-white px-4 py-2 rounded-md"
+      >
+        Add Comment
+      </button>
       <button
         type="button"
         onClick={() => setShowAttachment(!showAttachment)}
-        className="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md"
+        className="mt-4 bg-gray-500 text-white px-4 py-2 rounded-md"
       >
         Add Attachment
       </button>
+</div>
 
       {showAttachment && (
         <div className="mt-4">
@@ -92,13 +106,6 @@ const CommentForm: React.FC<CommentFormProps> = () => {
         </div>
       )}
 
-      <button
-        type="button"
-        onClick={focusTextarea}
-        className="mt-4 bg-green-500 text-white px-4 py-2 rounded-md"
-      >
-        Add Comment
-      </button>
 
       <button
         type="button"

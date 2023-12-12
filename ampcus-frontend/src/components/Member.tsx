@@ -3,6 +3,8 @@ import useFetchGet from "../hooks/useFetchGet";
 import { useAuth } from "../hooks/useAuth";
 import { Member } from "../models/models";
 import { Link } from "react-router-dom";
+import { encryptData } from "../utils/encryptdycrpt";
+import { formatToNaira } from "../utils/CurrencyFormater";
 
 const FetchMembers: React.FC<Member> = () => {
   const { user, member, setMember } = useAuth();
@@ -16,6 +18,7 @@ const FetchMembers: React.FC<Member> = () => {
     const fetchMemberData = async () => {
       try {
         const response = await api(`/member/${user?.member}`);
+        encryptData('member',response)
         setMember(response); // Set the member data
       } catch (error) {
         setIsError(true);
@@ -55,7 +58,7 @@ const FetchMembers: React.FC<Member> = () => {
                     scope="col"
                     className="px-6 py-3 text-left text-xs font-bold uppercase tracking-wider"
                   >
-                    Date Collected
+                    Date Approved
                   </th>
                   <th
                     scope="col"
@@ -98,20 +101,20 @@ const FetchMembers: React.FC<Member> = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.borrowed_amount}
+                        {formatToNaira(loan.borrowed_amount)}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.repaid_amount}
+                        {formatToNaira(loan.repaid_amount)}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.is_approved ? (
-                          <p>Approved</p>
+                        {loan.is_declined?<strong className="text-red-500">Declined</strong>:loan.is_approved ? (
+                          <strong className="text-green-500">Approved</strong>
                         ) : (
-                          <p>Not Approved</p>
+                          <strong className="text-orange-500" >Awaiting Approval</strong>
                         )}
                       </Link>
                     </td>

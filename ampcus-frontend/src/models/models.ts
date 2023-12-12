@@ -77,7 +77,7 @@ export interface Member {
   job_title: string
   total_contribution: number;
   total_loan: number;
-  available_balance: number;
+  avaliable_balance: number;
   existing_loan: Loan[];
 }
 
