@@ -1,33 +1,88 @@
 
-export interface Member {
-  id: number;
-  location: string;
-  user: {
-    first_name: string;
-    last_name: string;
-    sap_number: string;
-    email: string;
-  };
-  monthly_contribution: number;
-  bank_name: string;
-  bank_account: string;
-  total_contribution: number;
-  total_loan: number;
-  available_balance: number;
-  existing_loan: {
-    id: number;
-    loan_types: number;
-    date_approved: string;
-    borrowed_amount: number;
-    repaid_amount: number;
-    is_active: boolean;
-    is_approved:boolean;
-  }[];
-  avatarUrl?: string;
+export interface LoanData {
+  id: string;
+  borrowed_amount: string;
+  repaid_amount: string;
+  member: string;
+  loan_type: number;
+  attachments: null | any[];
+  comments: any[];
+  is_active: boolean;
+  is_approved: boolean;
+  is_treasurer_approved: boolean;
+  is_declined: boolean;
+  is_president_approved: boolean;
+  is_user_declined: boolean;
+  is_treasurer_declined: boolean;
+  is_president_declined: boolean;
+  owner: string;
+  loan_types: string;
+  date_initiated: string;
+  date_declined: string | null;
+  date_updated: string;
+  date_approved: string | null;
 }
 
 
-export interface User {
+
+interface Loan {
+  id: string;
+  member: string;
+  loan_type: string;
+  borrowed_amount: string;
+  repaid_amount: string;
+  attachments: any;
+  comments: any[];
+  is_active: boolean;
+  is_treasurer_approved: boolean;
+  is_president_approved: boolean;
+  is_treasurer_declined: boolean;
+  is_president_declined: boolean;
+  is_user_declined: boolean;
+  is_approved: boolean;
+  is_declined: boolean;
+  date_initiated: string;
+  date_declined: string;
+  date_updated: string;
+  date_approved: string;
+}
+
+interface User {
+  id: string;
+  email: string;
+  sap_number: string;
+  first_name: string;
+  last_name: string;
+  place_of_birth: string;
+  state_of_origin: string;
+  lga: string;
+  marital_status: string;
+  next_of_kin: string;
+  phone_number: string;
+  date_joined_nb: string;
+  date_of_birth: string;
+  currnent_grade: string;
+
+}
+
+export interface Member {
+  id: number;
+  location: string;
+  user: User;
+  monthly_contribution: number;
+  profile_picture: string;
+  bank_name: string;
+  bank_account: string;
+  department: string;
+  job_title: string
+  total_contribution: number;
+  total_loan: number;
+  available_balance: number;
+  existing_loan: Loan[];
+}
+
+
+export interface Token {
   email: string;
   exp: number;
   iat: number;

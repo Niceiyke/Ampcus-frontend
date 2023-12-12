@@ -5,12 +5,13 @@ import { Member } from "../models/models";
 import { Link } from "react-router-dom";
 
 const FetchMembers: React.FC<Member> = () => {
-  const { user } = useAuth();
+  const { user, member, setMember } = useAuth();
   const api = useFetchGet();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isError, setIsError] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
-  const [member, setMember] = useState<Member | null>(null);
+
+
   useEffect(() => {
     const fetchMemberData = async () => {
       try {
