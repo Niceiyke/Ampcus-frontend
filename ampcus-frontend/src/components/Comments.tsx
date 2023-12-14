@@ -2,6 +2,7 @@
 
 import React from "react";
 import { useAuth } from "../hooks/useAuth";
+import { formatDate } from "../utils/dateFormater";
 
 interface CommentProps {
   id: string;
@@ -20,7 +21,7 @@ const Comment: React.FC<CommentProps> = ({
   attachments,
 }) => {
   const { member } = useAuth();
-  console.log(member.profile_picture,description);
+
   return (
     <>
       {member.user.id === user ? (
@@ -32,7 +33,7 @@ const Comment: React.FC<CommentProps> = ({
           />
           <div>
             <p className="text-gray-600 text-sm">
-              {new Date(date_commented).toLocaleString()}
+              {formatDate(date_commented)}
             </p>
             <p className=" text-green-300">{description}</p>
             {attachments && (
@@ -56,7 +57,7 @@ const Comment: React.FC<CommentProps> = ({
           />
           <div>
             <p className="text-gray-600 text-sm">
-              {new Date(date_commented).toLocaleString()}
+              {formatDate(date_commented)}
             </p>
             <p className=" text-red-300">{description}</p>
             {attachments && (
