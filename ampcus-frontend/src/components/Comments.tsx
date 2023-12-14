@@ -10,7 +10,7 @@ interface CommentProps {
   date_commented: string;
   loan: string;
   attachments?: string;
-  avatar?: string;
+  profile_picture?: string;
 }
 
 const Comment: React.FC<CommentProps> = ({
@@ -18,16 +18,15 @@ const Comment: React.FC<CommentProps> = ({
   description,
   date_commented,
   attachments,
-  avatar,
 }) => {
   const { member } = useAuth();
-  console.log(member.user.id, user);
+  console.log(member.profile_picture,description);
   return (
     <>
       {member.user.id === user ? (
-        <div className="flex space-x-4 border-2 rounded-md mr-64">
+        <div className="flex space-x-4 border-2 rounded-md mr-36 lg:mr-64">
           <img
-            src={avatar}
+            src={member.profile_picture}
             alt={`Avatar of ${name}`}
             className="w-10 h-10 rounded-full"
           />
@@ -49,9 +48,9 @@ const Comment: React.FC<CommentProps> = ({
           </div>
         </div>
       ) : (
-        <div className="flex space-x-4 border-2 rounded-md ml-64">
+        <div className="flex space-x-4 border-2 rounded-md ml-36 lg:ml-64">
           <img
-            src={avatar}
+            src={member.profile_picture}
             alt={`Avatar of ${name}`}
             className="w-10 h-10 rounded-full"
           />

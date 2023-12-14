@@ -10,7 +10,7 @@ interface CommentProps {
   loan: string;
   date_commented:string;
   attachments?: string;
-  avatar?: string;
+  profile_picture?: string;
 }
 
 interface CommentListProps {
