@@ -41,6 +41,7 @@ const intitialapprover ={
     "treasurer_email": "",
     "treasurer_phone": "",
     "treasurer_picture": "",
+    "president_id":"",
 }
 
 function LoanDetail() {
@@ -143,7 +144,7 @@ function LoanDetail() {
                   <span className="flex">
                     <strong className="">Name:</strong>{" "}
                     <p className="pl-4">{approver.president_name}</p>
-                    <p className="pl-2">(Treasurer)</p>
+                    <p className="pl-2">(President)</p>
                   </span>
                   <span className="flex">
                     <strong>status:</strong> {presidentStatus}
@@ -221,7 +222,7 @@ function LoanDetail() {
           comments
           <CommentForm user={user.id} loan={loadData.id} />
           <br />
-          <CommentList comments={loadData.comments} />
+          <CommentList comments={loadData.comments} president_id={approver.president_id} president_picture={approver.president_picture} treasurer_picture={approver.treasurer_picture} />
         </div>
       </div>
     </div>

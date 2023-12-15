@@ -66,18 +66,18 @@ interface User {
 }
 
 export interface Member {
-  id: number;
+  id: string;
   location: string;
   user: User;
-  monthly_contribution: number;
+  monthly_contribution: string;
   profile_picture: string;
   bank_name: string;
   bank_account: string;
   department: string;
   job_title: string
-  total_contribution: number;
-  total_loan: number;
-  avaliable_balance: number;
+  total_contribution: string;
+  total_loan: string;
+  avaliable_balance: string;
   existing_loan: Loan[];
 }
 

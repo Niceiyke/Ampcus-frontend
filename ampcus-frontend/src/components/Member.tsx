@@ -5,6 +5,7 @@ import { Member } from "../models/models";
 import { Link } from "react-router-dom";
 import { encryptData } from "../utils/encryptdycrpt";
 import { formatToNaira } from "../utils/CurrencyFormater";
+import { formatDate } from "../utils/dateFormater";
 
 const FetchMembers: React.FC<Member> = () => {
   const { user, member, setMember } = useAuth();
@@ -96,7 +97,7 @@ const FetchMembers: React.FC<Member> = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.date_approved}
+                        {formatDate(loan.date_approved)}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -120,14 +121,10 @@ const FetchMembers: React.FC<Member> = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail-unapproved/${loan.id}`}>
-                        {loan.is_approved ? (
-                          loan.is_active ? (
+                        {loan.is_approved ? 
                             <p>Active</p>
-                          ) : (
-                            <p>Repaid</p>
-                          )
-                        ) : (
-                          ""
+                           : (
+                            <p></p>
                         )}
                       </Link>
                     </td>

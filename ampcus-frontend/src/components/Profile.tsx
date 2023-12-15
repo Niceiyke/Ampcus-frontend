@@ -23,27 +23,28 @@ type ProfileAction =
     | { type: 'SET_PHONE_NUMBER'; payload: string };
 
 const initialState: Member = {
-    id: 0,
+    id: '',
     location: '',
     user: {
         first_name: 'Ikechukwu',
         last_name: 'Oyom',
         sap_number: '13659',
         email: 'iyke@ampcus.com',
+        id: '', place_of_birth: '', state_of_origin:'', lga:'',marital_status:'', next_of_kin:"", phone_number:"", date_joined_nb:"",date_of_birth:'', currnent_grade:"",
     },
-    monthly_contribution: 0,
+    monthly_contribution: '',
     bank_name: 'Zenith Bank',
     bank_account: '200865848',
-    total_contribution: 0,
-    total_loan: 0,
-    available_balance: 0,
+    total_contribution: '',
+    total_loan: '',
+    available_balance: '',
     existing_loan: [
         {
-            id: 1,
-            loan_types: 2,
+            id: '',
+            loan_types: '',
             date_approved: '',
-            borrowed_amount: 1000,
-            repaid_amount: 500,
+            borrowed_amount: '',
+            repaid_amount: '',
             is_active: true,
         },
     ],
