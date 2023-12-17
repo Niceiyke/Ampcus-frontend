@@ -79,6 +79,9 @@ export interface Member {
   total_loan: string;
   avaliable_balance: string;
   existing_loan: Loan[];
+  is_president:boolean;
+  is_treasurer:boolean;
+  is_admin_officer:boolean
 }
 
 

@@ -1,6 +1,6 @@
 // Comment.tsx
 
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { formatDate } from "../utils/dateFormater";
 
@@ -27,6 +27,7 @@ const Comment: React.FC<CommentProps> = ({
   treasurer_picture
 }) => {
   const { member } = useAuth();
+ 
 
   return (
     <>

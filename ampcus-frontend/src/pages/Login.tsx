@@ -3,6 +3,7 @@ import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import { encryptData } from '../utils/encryptdycrpt';
 import InputField from '../components/InputField';
+import { Token } from '../models/models';
 
 
 const Login: React.FC = () => {
@@ -19,6 +20,21 @@ const Login: React.FC = () => {
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setError('');
         setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
+    const fetchMember = async (access_token:string) => {
+        const user=jwtDecode<Token>(access_token)
+        encryptData("user", user);
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/member/${user.member}`
+      );
+      if( response.status===200){
+
+        const data = await response.json();
+         encryptData("member", data);
+
+      }
+     
     };
 
     const handleLogin = async (e: FormEvent) => {
@@ -38,11 +54,14 @@ const Login: React.FC = () => {
                 const access_token = token.access
                 const refresh_token = token.refresh
 
-                encryptData('access', access_token)
-                encryptData('refresh', refresh_token)
-                encryptData('user', jwtDecode(access_token))
+                await fetchMember(access_token)
+
+                encryptData("access", access_token)
+                encryptData("refresh", refresh_token)
+
                 navigate('/dashboard')
-                window.location.reload()
+           
+                
 
 
             } else {

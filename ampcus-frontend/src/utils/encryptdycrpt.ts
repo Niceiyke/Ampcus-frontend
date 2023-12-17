@@ -4,9 +4,8 @@ import CryptoJS from 'crypto-js';
 
 const SECRET_KEY = 'mysecretkey';
 
-CryptoJS.rf
 
-export const encryptData = (name, data) => {
+export const encryptData = (name:string, data) => {
     const encrypted = CryptoJS.DES.encrypt(JSON.stringify(data), SECRET_KEY).toString();
     localStorage.setItem(name, encrypted);
 }

@@ -1,44 +1,16 @@
 import React, { useState, useEffect } from "react"; // Added React and useEffect
-import useFetchGet from "../hooks/useFetchGet";
-import { useAuth } from "../hooks/useAuth";
-import { Member } from "../models/models";
+import { useAuth } from "../../hooks/useAuth";
+import { Member } from "../../models/models";
 import { Link } from "react-router-dom";
-import { encryptData } from "../utils/encryptdycrpt";
-import { formatToNaira } from "../utils/CurrencyFormater";
-import { formatDate } from "../utils/dateFormater";
+import { formatToNaira } from "../../utils/CurrencyFormater";
+import { formatDate } from "../../utils/dateFormater";
 
 const FetchMembers: React.FC<Member> = () => {
-  const { user, member, setMember } = useAuth();
-  const api = useFetchGet();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [error, setError] = useState<string>("");
+  const {  member} = useAuth();
+
+  console.log(member)
 
 
-  useEffect(() => {
-    const fetchMemberData = async () => {
-      try {
-        const response = await api(`/member/${user?.member}`);
-        encryptData('member',response)
-        setMember(response); // Set the member data
-      } catch (error) {
-        setIsError(true);
-        setError(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchMemberData();
-  }, [user]);
-
-  if (isLoading) {
-    return <div>Loading</div>;
-  }
-
-  if (isError) {
-    return <p>Error occurred {error.message}</p>;
-  }
 
   return (
     <div>
@@ -112,20 +84,20 @@ const FetchMembers: React.FC<Member> = () => {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.is_declined?<strong className="text-red-500">Declined</strong>:loan.is_approved ? (
+                        {loan.is_declined ? (
+                          <strong className="text-red-500">Declined</strong>
+                        ) : loan.is_approved ? (
                           <strong className="text-green-500">Approved</strong>
                         ) : (
-                          <strong className="text-orange-500" >Awaiting Approval</strong>
+                          <strong className="text-orange-500">
+                            Awaiting Approval
+                          </strong>
                         )}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail-unapproved/${loan.id}`}>
-                        {loan.is_approved ? 
-                            <p>Active</p>
-                           : (
-                            <p></p>
-                        )}
+                        {loan.is_approved ? <p>Active</p> : <p></p>}
                       </Link>
                     </td>
                   </tr>
