@@ -2,11 +2,16 @@ import { Link } from 'react-router-dom'
 import { AiFillDashboard, AiFillSchedule } from 'react-icons/ai'
 import { MdChangeCircle } from 'react-icons/md'
 import { useAuth } from '../hooks/useAuth'
+import { useState } from 'react'
 
 function Sidebar() {
 
+    const [isApproval,setIsApproval] =useState(false)
     const {member}=useAuth()
-    console.log(member)
+    
+    const handleClick =()=>{
+      setIsApproval(!isApproval)
+    }
 
 
 
@@ -40,13 +45,38 @@ function Sidebar() {
           </Link>{" "}
         </div>
 
-        {
-          (member.is_president && (
+        {member.is_president && (
+          <>
             <div className="mb-4 pt-8  flex flex-row items-center">
               <AiFillSchedule size="20px" color="white" />
-              <a className=" ml-2 text-white font-bold">Request Approval</a>
+              <a className=" ml-2 text-white font-bold" onClick={handleClick}>
+                Request Approval
+              </a>
             </div>
-          ))}
+            {isApproval && (
+              <div className="ml-4">
+                <Link to="/admin/awaiting-presinent-approvals">
+                  Awaiting Loan Approvals
+                </Link>
+              </div>
+            )}
+          </>
+        )}
+        {member.is_treasurer && (
+          <>
+            <div className="mb-4 pt-8  flex flex-row items-center">
+              <AiFillSchedule size="20px" color="white" />
+              <a className=" ml-2 text-white font-bold" onClick={handleClick}>
+                Request Approval
+              </a>
+            </div>
+            {isApproval && (
+              <div className="ml-4">
+                <Link to="treasurer-approvals">Awaiting Loan Approvals</Link>
+              </div>
+            )}
+          </>
+        )}
       </div>
     );
 }

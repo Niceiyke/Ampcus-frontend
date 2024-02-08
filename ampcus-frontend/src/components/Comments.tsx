@@ -1,6 +1,4 @@
 // Comment.tsx
-
-import React, { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { formatDate } from "../utils/dateFormater";
 
@@ -42,7 +40,7 @@ const Comment: React.FC<CommentProps> = ({
             <p className="text-gray-600 text-sm">
               {formatDate(date_commented)}
             </p>
-            <p className=" text-green-300">{description}</p>
+            <p className=" text-green-500">{description}</p>
             {attachments && (
               <a
                 href={attachments}
