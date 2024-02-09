@@ -1,17 +1,17 @@
 import Navbar from "../components/Navbar";
 import SplitScreen from "../layouts/SplitScreen";
 import Sidebar from "../components/Sidebar";
-import FetchMembers from "../components/user/Member";
 import ScrollingText from "../components/ScrolingText";
+import Dashboard from "../components/Dashboard";
 
-function Dashboard() {
+function DashboardPage() {
   return (
     <div className="layout">
       <Navbar />
       <ScrollingText />
-      <SplitScreen left={<Sidebar />} right={<FetchMembers />} />
+      <SplitScreen left={<Sidebar />} right={<Dashboard />} />
     </div>
   );
 }
 
-export default Dashboard;
+export default DashboardPage;
