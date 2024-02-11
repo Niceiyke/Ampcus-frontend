@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from "react"; // Added React and useEffect
+import React from "react"; // Added React and useEffect
 import { useAuth } from "../../hooks/useAuth";
 import { Member } from "../../models/models";
 import { Link } from "react-router-dom";
 import { formatToNaira } from "../../utils/CurrencyFormater";
 import { formatDate } from "../../utils/dateFormater";
 
-const FetchMembers: React.FC<Member> = () => {
+const FetchMembers: React.FC = () => {
   const {  member} = useAuth();
 
   console.log(member)
