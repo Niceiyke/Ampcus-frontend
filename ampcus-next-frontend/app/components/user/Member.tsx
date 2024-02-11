@@ -1,14 +1,17 @@
-'use client'
 
 import { formatToNaira } from "../../utils/CurrencyFormater";
 import { formatDate } from "../../utils/dateFormater";
 import Link from "next/link";
 import { useAuth } from "@/app/hooks/useAuth";
 import { MemberType } from "@/app/models/models";
+import { getMember } from "@/app/api/apis";
 
 const FetchMembers: React.FC<MemberType> = async() => {
 
-  const {member}=useAuth()
+
+const member =await getMember()
+
+console.log(member)
 
 
   return (

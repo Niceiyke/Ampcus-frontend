@@ -3,22 +3,24 @@ import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetchPost";
 import { useAuth } from "../../hooks/useAuth";
 import InputField from "../InputField";
+import { getMember } from "../../api/apis";
+import { encryptData } from "../../utils/encryptdycrpt";
 
 interface FormData {
   borrowed_amount: string;
   loan_type: string | number;
-  member: any; // Adjust the type based on your actual user/member type
+  member: string;
 }
 
 function LoanRequestForm() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { member,setMember } = useAuth();
   const api = useFetch();
   const [error, setError] = useState<string>("");
   const [formData, setFormData] = useState<FormData>({
     borrowed_amount: "",
     loan_type: "",
-    member: user?.member,
+    member: member?.id,
   });
 
   const handleChange = (
@@ -46,6 +48,7 @@ function LoanRequestForm() {
     if (formData["loan_type"] == "home_appliances") {
       formData["loan_type"] = 5;
     }
+    console.log(formData)
 
     const response = await api("/loans/", "POST", formData);
 
@@ -54,6 +57,11 @@ function LoanRequestForm() {
       setError(response.error[0]);
     } else if (response.response.status === 201) {
       console.log(response.data);
+      const res =await getMember(member.id)
+        setMember(res)
+        encryptData('member',res)
+      
+
       navigate("/dashboard");
     }
   };

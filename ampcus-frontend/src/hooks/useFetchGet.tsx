@@ -4,12 +4,19 @@ import { jwtDecode } from "jwt-decode";
 import { useAuth } from "./useAuth";
 import { encryptData } from "../utils/encryptdycrpt";
 import { useNavigate } from "react-router-dom";
+import { Token } from "../models/models";
 
 const useFetchGet = () => {
-  const { accessToken,refreshToken, user, logout } = useAuth();
+  const { accessToken,refreshToken,  logout } = useAuth();
   const navigate = useNavigate();
 
+  const access_token=jwtDecode<Token>(accessToken)
+  const refresh_token=jwtDecode<Token>(refreshToken)
+
+  
+
   let config: RequestInit = {};
+
 
   const BASEURL = import.meta.env.VITE_APP_BASE_URL;
 
@@ -50,10 +57,10 @@ const useFetchGet = () => {
   };
 
   const callFetch = async (url: string): Promise<any> => {
-    const isExpiredAccessToken = dayjs.unix(user.exp).diff(dayjs()) < 1;
+    const isExpiredAccessToken = dayjs.unix(access_token.exp).diff(dayjs()) < 1;
 
-    const refresh = jwtDecode(refreshToken);
-    const isExpiredRefreshToken = dayjs.unix(refresh.exp).diff(dayjs()) < 1;
+   
+    const isExpiredRefreshToken = dayjs.unix(refresh_token.exp).diff(dayjs()) < 1;
 
     if (isExpiredRefreshToken) {
       console.log("refresh expired");

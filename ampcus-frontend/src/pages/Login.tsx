@@ -1,14 +1,18 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import {getMember} from '../api/apis'
 import { encryptData } from '../utils/encryptdycrpt';
 import InputField from '../components/InputField';
 import { Token } from '../models/models';
+import { useAuth } from '../hooks/useAuth';
 
 
 const Login: React.FC = () => {
     const [error, setError] = useState<string | undefined>();
     const [loading, setLoading] = useState(false);
+
+    const {setMember,setRefreshToken,setAccessToken}= useAuth()
 
     const navigate = useNavigate();
 
@@ -22,20 +26,7 @@ const Login: React.FC = () => {
         setFormData({ ...formData, [e.target.id]: e.target.value });
     };
 
-    const fetchMember = async (access_token:string) => {
-        const user=jwtDecode<Token>(access_token)
-        encryptData("user", user);
-      const response = await fetch(
-        `http://127.0.0.1:8000/api/member/${user.member}`
-      );
-      if( response.status===200){
 
-        const data = await response.json();
-         encryptData("member", data);
-
-      }
-     
-    };
 
     const handleLogin = async (e: FormEvent) => {
         e.preventDefault();
@@ -53,9 +44,16 @@ const Login: React.FC = () => {
                 const token = await response.json()
                 const access_token = token.access
                 const refresh_token = token.refresh
+                console.log(access_token)
 
-                await fetchMember(access_token)
+                const user=jwtDecode<Token>(access_token)
+                console.log(user.member)
+                const res =await getMember(user.member)
+                setMember(res)
+                setAccessToken(access_token)
+                setRefreshToken(refresh_token)
 
+                encryptData('member',res)
                 encryptData("access", access_token)
                 encryptData("refresh", refresh_token)
 

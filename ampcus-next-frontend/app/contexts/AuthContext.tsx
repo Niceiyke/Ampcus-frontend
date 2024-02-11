@@ -12,15 +12,9 @@ import { MemberType } from "../models/models";
 
 
 interface AuthContextProps {
-  user: string|null;
   member: MemberType|null;
-  accessToken: string|null;
-  refreshToken: string|null;
   setMember: Dispatch<SetStateAction<any>>;
-  setRefreshToken: Dispatch<SetStateAction<any>>;
-  logout: () => void;
-  setUser: Dispatch<SetStateAction<any>>;
-  setAccessToken: Dispatch<SetStateAction<any>>;
+
 }
 
 export const AuthContext = createContext<AuthContextProps | undefined>(
@@ -33,13 +27,9 @@ interface AuthProviderProps {
 
 function AuthProvider({ children }: AuthProviderProps) {
 
-
-  const access = typeof window !== "undefined" ? window.localStorage.getItem('member') 
-
-
-
-  const [member,setMember]=useState(JSON.parse(access))
-
+  const storedMember = localStorage.getItem('member');
+  const initialMember = storedMember ? JSON.parse(storedMember) : null;
+  const [member, setMember] = useState(initialMember);
 
 
 

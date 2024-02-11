@@ -1,9 +1,10 @@
+import axios from "axios";
 import { axiosInstance } from "../utils/axiosInstance";
 
 
 
-export const fetchMembers = async () => {
-    const response = await axiosInstance.get('/member/2')
+export const getMember = async (id) => {
+    const response = await axios.get(`http://127.0.0.1:8000/api/member/${id}`)
     console.log(response.data)
 
     return response.data

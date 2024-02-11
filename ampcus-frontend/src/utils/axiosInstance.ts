@@ -1,4 +1,4 @@
-{/*
+
 //'use client'
 import axios from 'axios';
 import decryptData from './encryptdycrpt';
@@ -8,9 +8,6 @@ import { jwtDecode } from 'jwt-decode';
 
 const accessToken = decryptData('access')
 const refresh = decryptData('refresh')
-console.log('token', accessToken)
-
-console.log('token', refresh)
 
 
 export const axiosInstance = axios.create({
@@ -31,11 +28,9 @@ axiosInstance.interceptors.request.use(async req => {
 
     const isExpired = dayjs.unix(user.exp).diff(dayjs()) < 1
 
-    console.log(isExpired)
 
     return req
 
 
 
 })
-*/}

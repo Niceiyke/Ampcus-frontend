@@ -3,11 +3,15 @@ import { jwtDecode } from 'jwt-decode';
 import { useAuth } from './useAuth'; // Assuming you have a useAuth hook with AuthUser type
 import { encryptData } from '../utils/encryptdycrpt';
 import { useNavigate } from 'react-router-dom';
+import { Token } from '../models/models';
 
 type HttpMethod = 'POST' | 'PUT'; // Add more methods as needed
 
 const useFetchPost = () => {
-    const { accessToken, refreshToken, user, logout } = useAuth();
+    const { accessToken, refreshToken,logout } = useAuth();
+
+    const access_token=jwtDecode<Token>(accessToken)
+    const refresh_token=jwtDecode<Token>(refreshToken)
 
     const navigation = useNavigate();
 
@@ -79,10 +83,10 @@ const useFetchPost = () => {
         formdata?: Record<string, any>
     ): Promise<{ response: Response; data: any; error: any }> => {
 
-        const isExpiredAccessToken = dayjs.unix(user.exp).diff(dayjs()) < 1;
+        const isExpiredAccessToken = dayjs.unix(access_token.exp).diff(dayjs()) < 1;
 
-        const refresh = jwtDecode(refreshToken);
-        const isExpiredRefreshToken = dayjs.unix(refresh.exp).diff(dayjs()) < 1;
+      
+        const isExpiredRefreshToken = dayjs.unix(refresh_token.exp).diff(dayjs()) < 1;
 
         if (isExpiredRefreshToken) {
             console.log('refresh expired');

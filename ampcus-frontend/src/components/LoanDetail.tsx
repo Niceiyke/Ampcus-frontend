@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useFetchGet from "../hooks/useFetchGet";
 import { useAuth } from "../hooks/useAuth";
 import { LoanData } from "../models/models";
@@ -9,6 +9,8 @@ import { formatToNaira } from "../utils/CurrencyFormater";
 import { formatDate } from "../utils/dateFormater";
 import Button from "./ButtonComponent";
 import useFetchPost from "../hooks/useFetchPost";
+import { getMember } from "../api/apis";
+import { encryptData } from "../utils/encryptdycrpt";
 
 const initialLoanData: LoanData = {
   id: "",
@@ -47,14 +49,17 @@ const intitialapprover = {
 };
 
 function LoanDetail() {
+
+  const navigate =useNavigate()
   const { loanId } = useParams();
   const api = useFetchGet();
   const apiPost =useFetchPost()
-  const { member, user } = useAuth();
+  const { member, setMember } = useAuth();
   const [loadData, setLoanData] = useState(initialLoanData);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [approver, setApprover] = useState(intitialapprover);
+
 
   useEffect(() => {
     const fetchLoanDetail = async () => {
@@ -77,7 +82,14 @@ function LoanDetail() {
 
     if( response.data){
 
-      console.log(response.data);
+      navigate('/dashboard')
+
+      const res =await getMember(member.id)
+
+      setMember(res)
+      encryptData("member",member)
+
+      
 
     }
     
@@ -88,7 +100,7 @@ function LoanDetail() {
   }
 
   if (isError) {
-    return <p>Error occurred: {error.message}</p>;
+    return <p>Error occurred:</p>;
   }
 
   const getPresidentStatus = () => {
@@ -184,8 +196,14 @@ function LoanDetail() {
                 {" "}
                 <strong className="">Request Date:</strong>{" "}
                 <p className="">{formatDate(loadData.date_initiated)}</p>
+              </div>              
+              <div className="flex gap-24 mt-2">
+                {" "}
+                <strong className="">Name:</strong>{" "}
+                <p className="">{loadData.owner}</p>
               </div>
-              <div className="flex gap-12 mt-2">
+
+              <div className="flex gap-16 mt-2">
                 {" "}
                 <strong className="">Loan Type:</strong>{" "}
                 <p className="">{loadData.loan_types}</p>
@@ -220,7 +238,7 @@ function LoanDetail() {
                 <strong className="">Avaliable Balance:</strong>{" "}
                 <p className="">{formatToNaira(member.avaliable_balance)}</p>
               </div>
-              <div className="flex gap-16 mt-2">
+              <div className="flex gap-24 mt-2">
                 {" "}
                 <strong className="">Bank name:</strong>{" "}
                 <p className="">{member.bank_name}</p>
@@ -237,6 +255,7 @@ function LoanDetail() {
                     color="text-red-600"
                     bg="bg-red-500"
                     name="Decline Loan"
+                    disabled={false}
                   />
                 )}
                 {!loadData.is_declined && member.is_treasurer && (
@@ -245,6 +264,7 @@ function LoanDetail() {
                     color="text-green-600"
                     bg="bg-green-500"
                     name="Treasurer Approve Loan"
+                    disabled={false}
                   />
                 )}
                 {!loadData.is_declined && member.is_president && (
@@ -253,6 +273,7 @@ function LoanDetail() {
                     color="text-green-600"
                     bg="bg-green-500"
                     name="President Approve Loan"
+                    disabled={loadData?.is_treasurer_approved?false:true}
                   />
                 )}
                 {!loadData.is_declined && member.is_admin_officer && (
@@ -261,6 +282,7 @@ function LoanDetail() {
                     color="text-green-600"
                     bg="bg-green-500"
                     name="Admin Approve Loan"
+                    disabled={false}
                   />
                 )}
               </div>
@@ -270,7 +292,7 @@ function LoanDetail() {
         <div>
           comments
           {!loadData.is_declined && !loadData.is_approved && (
-            <CommentForm user={user.id} loan={loadData.id} />
+            <CommentForm user={member.id} loan={loadData.id} />
           )}
           <br />
           <CommentList

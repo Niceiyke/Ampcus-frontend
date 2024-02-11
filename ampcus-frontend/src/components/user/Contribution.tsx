@@ -10,8 +10,7 @@ type ContributionFormData = {
 };
 
 function Contribution() {
-  const { user } = useAuth();
-
+  const { member } = useAuth();
   const [contribution, setContribution] = useState<number>(0);
 
   const [formData, setFormData] = useState<ContributionFormData>({
@@ -26,7 +25,7 @@ function Contribution() {
 
   useEffect(() => {
     const fetchContribution = async () => {
-      const response = await apiFetch(`/member-contribution/${user.member}`);
+      const response = await apiFetch(`/member-contribution/${member.id}`);
       setContribution(response.monthly_contribution);
     };
 
@@ -43,7 +42,7 @@ function Contribution() {
 
     try {
       const response = await apiPost(
-        `/member-contribution/${user.member}`,
+        `/member-contribution/${member.id}`,
         "PUT",
         formData
       );
