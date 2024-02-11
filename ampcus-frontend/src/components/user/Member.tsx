@@ -64,7 +64,7 @@ const FetchMembers: React.FC<Member> = () => {
                   <tr className="bg-white border-b" key={loan.id}>
                     <td scope="row" className="px-6 py-4 whitespace-nowrap">
                       <Link to={`/loan-detail/${loan.id}`}>
-                        {loan.loan_types}
+                        {loan.loan_type}
                       </Link>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
