@@ -5,7 +5,7 @@ import logo from "../../assets/OIP2.jpg";
 interface ProfileProps {}
 
 // interface ProfileState {
-//     avatarUrl: string;
+//     profile_picture: string;
 //     firstName: string;
 //     lastName: string;
 //     username: string;
@@ -45,7 +45,7 @@ const initialState: Member = {
   bank_account: "200865848",
   total_contribution: "",
   total_loan: "",
-  available_balance: "",
+  avaliable_balance: "",
   existing_loan: [
     {
       id: "",
@@ -56,13 +56,13 @@ const initialState: Member = {
       is_active: true,
     },
   ],
-  avatarUrl: "",
+  profile_picture: "",
 };
 
 const profileReducer = (state: Member, action: ProfileAction): Member => {
   switch (action.type) {
     case "SET_AVATAR":
-      return { ...state, avatarUrl: action.payload };
+      return { ...state, profile_picture: action.payload };
     case "SET_BANK_NAME":
       return { ...state, bank_name: action.payload };
     case "SET_ACCOUNT_NUMBER":
@@ -96,7 +96,7 @@ const Profile: React.FC<ProfileProps> = () => {
             </div> */}
       <div className="flex flex-col items-center justify-center">
         <img
-          src={state.avatarUrl || logo} // Use a default avatar if no custom avatar is set
+          src={state.profile_picture || logo} // Use a default avatar if no custom avatar is set
           alt="User Avatar"
           className="rounded-full w-32 h-32 border-4 border-white shadow-lg"
         />
@@ -133,7 +133,7 @@ const Profile: React.FC<ProfileProps> = () => {
           <div className="mt-6">
             <h2 className="text-xl font-bold">Loans</h2>
             <p className="text-gray-700">{`Total Loan Amount: ${state.total_loan}`}</p>
-            <p className="text-gray-700">{`Avaliable Loan Balance: ${state.available_balance}`}</p>
+            <p className="text-gray-700">{`Avaliable Loan Balance: ${state.avaliable_balance}`}</p>
             <p className="text-gray-700">{`Active Loan Count: ${state.existing_loan.length}`}</p>
           </div>
         </div>
